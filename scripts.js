@@ -34,10 +34,52 @@ function addBookToLibrary(book, library) {
 
 let newBook = new Book("Harry Pobber");
 let newBook2 = new Book("Medibations");
+console.log(typeof newBook2);
+console.log(newBook.title);
 addBookToLibrary(newBook, myLibrary);
 console.log(myLibrary);
 addBookToLibrary(newBook2, myLibrary);
 console.log(myLibrary);
 
 let noInfo = new Book("Title");
-console.log(noInfo);
+// console.log(noInfo);
+
+const pageBody = document.querySelector("body");
+
+displayNode = document.createElement("div");
+
+/* 
+This function appends things to the document body in the format of 
+<div>
+    <div>
+        <p> Book 1 field 1</p>
+        <p> Book 2 field 2</p>
+        ...
+    <\div>
+    <div>
+        Info for book 2...
+    <\div>
+<\div>
+and so on. 
+*/
+function displayLibrary(library) {
+  for (const book in library) {
+    let fields = Object.keys(library[book]);
+    console.log(fields);
+    //Create a new div for each book
+    const bookDiv = document.createElement("div");
+
+    for (const field in fields) {
+      const dataP = document.createElement("p");
+      dataP.textContent = `${fields[field]}: ${library[book][fields[field]]}`;
+      bookDiv.appendChild(dataP); // add field to book div
+    }
+
+    //add book div to display
+    displayNode.appendChild(bookDiv);
+  }
+
+  pageBody.appendChild(displayNode);
+}
+
+displayLibrary(myLibrary);
