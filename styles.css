@@ -73,3 +73,21 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+/* Actual styles */
+
+#showBooks {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: auto;
+}
+
+/* Styles cards for books */
+#showBooks > div {
+  background-color: whitesmoke;
+  border-radius: 20px;
+  padding: 8px;
+}

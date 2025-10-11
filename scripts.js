@@ -47,13 +47,16 @@ Library.prototype.displayAll = function (page) {
 
     const bookCard = document.createElement("div");
 
+    //for each field in a given book
     for (const field in fields) {
-      const bookDataField = document.createElement("p");
-      bookDataField.textContent = `${fields[field]}:  ${
-        this.books[book][fields[field]]
-      }`;
-      // populate book card with another line of <p> wrapped data
-      bookCard.appendChild(bookDataField);
+      if (this.books[book][fields[field]]) {
+        const bookDataField = document.createElement("p");
+        bookDataField.textContent = `${fields[field]}:  ${
+          this.books[book][fields[field]]
+        }`;
+        // populate book card with another line of <p> wrapped data
+        bookCard.appendChild(bookDataField);
+      }
     }
 
     //append book card to document body and move on to next book
