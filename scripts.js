@@ -6,15 +6,14 @@
 // crypto.randomUUID(). This ensures each book has a unique and stable identifier,
 // preventing issues when books are removed or rearranged.
 
-const myLibrary = [];
+//Tracks the elements on the page
+const page = {
+  form: document.getElementById("bookInfo"),
+  display: document.getElementById("showBooks"),
+};
 
-function Book(
-  title = `unknown`,
-  author = `unknown`,
-  pageCount = `unknown`,
-  genre = `unknown`,
-  read = `unknown`
-) {
+//Book objects track attributes of books
+function Book(title, author, pageCount, genre, read = false) {
   if (!new.target) {
     throw Error("This object must be instantiated with the 'new' keyword");
   }
@@ -27,59 +26,78 @@ function Book(
   this.read = read;
 }
 
-function addBookToLibrary(book, library) {
-  //Adds a book to the given library.
-  library.push(book);
+//A library is an object that holds an array of books
+function Library(books = []) {
+  if (!new.target) {
+    throw Error("This object must be instantiated with the 'new' keyword");
+  }
+  this.books = books;
 }
 
-let newBook = new Book("Harry Pobber");
-let newBook2 = new Book("Medibations");
-console.log(typeof newBook2);
-console.log(newBook.title);
-addBookToLibrary(newBook, myLibrary);
-console.log(myLibrary);
-addBookToLibrary(newBook2, myLibrary);
-console.log(myLibrary);
+Library.prototype.addBook = function (book) {
+  this.books.push(book);
+};
 
-let noInfo = new Book("Title");
-// console.log(noInfo);
-
-const pageBody = document.querySelector("body");
-
-displayNode = document.createElement("div");
-
-/* 
-This function appends things to the document body in the format of 
-<div>
-    <div>
-        <p> Book 1 field 1</p>
-        <p> Book 2 field 2</p>
-        ...
-    <\div>
-    <div>
-        Info for book 2...
-    <\div>
-<\div>
-and so on. 
-*/
-function displayLibrary(library) {
-  for (const book in library) {
-    let fields = Object.keys(library[book]);
+// Displays library content state at function call to the given page object (removes whatever was there before)
+Library.prototype.displayAll = function (page) {
+  page.display.textContent = "";
+  for (const book in this.books) {
+    let fields = Object.keys(this.books[book]);
     console.log(fields);
-    //Create a new div for each book
-    const bookDiv = document.createElement("div");
+
+    const bookCard = document.createElement("div");
 
     for (const field in fields) {
-      const dataP = document.createElement("p");
-      dataP.textContent = `${fields[field]}: ${library[book][fields[field]]}`;
-      bookDiv.appendChild(dataP); // add field to book div
+      const bookDataField = document.createElement("p");
+      bookDataField.textContent = `${fields[field]}:  ${
+        this.books[book][fields[field]]
+      }`;
+      // populate book card with another line of <p> wrapped data
+      bookCard.appendChild(bookDataField);
     }
 
-    //add book div to display
-    displayNode.appendChild(bookDiv);
+    //append book card to document body and move on to next book
+    page.display.appendChild(bookCard);
   }
+};
 
-  pageBody.appendChild(displayNode);
+//Converts data entered in form to a Book, then saves it in the given Library.
+function saveFormData(library, form) {
+  const newBookData = new FormData(form);
+  console.log(newBookData.get("read"));
+  let title = newBookData.get("title");
+  let author = newBookData.get("author");
+  let pageCount = newBookData.get("pages");
+  let genre = newBookData.get("genre");
+
+  let read = newBookData.has("read") ? true : false;
+
+  const userEnteredBook = new Book(title, author, pageCount, genre, read);
+  library.addBook(userEnteredBook);
+  console.log(library); // for testing
 }
 
-displayLibrary(myLibrary);
+//Initializes objects, event listeners, etc.
+function init() {
+  //tracks the state of the library
+  const myLibrary = new Library();
+
+  ///Add some books to library for testing.
+
+  myLibrary.addBook(new Book("Harry Pobber"));
+  myLibrary.addBook(new Book("Medibations"));
+
+  //Display library contents
+  console.log(myLibrary);
+  myLibrary.displayAll(page);
+
+  //Set up event listeners for form.
+  page.form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    saveFormData(myLibrary, e.target);
+    e.target.reset();
+    myLibrary.displayAll(page);
+  });
+}
+
+init();
