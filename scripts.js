@@ -40,12 +40,28 @@ Library.prototype.addBook = function (book) {
   this.books.push(book);
 };
 
+Library.prototype.removeBook = function (searchID) {
+  bookList = this.books;
+  console.log(bookList);
+
+  const index = bookList.findIndex((book) => {
+    return book.id === searchID;
+  });
+
+  if (index != -1) {
+    this.books.splice(index, 1);
+  }
+
+  console.log(index);
+};
+
 // Displays library content state at function call to the given page object (removes whatever was there before)
 Library.prototype.displayAll = function (page) {
   page.display.textContent = "";
   for (const book in this.books) {
     let fields = Object.keys(this.books[book]);
     const bookCard = document.createElement("div");
+    bookCard.classList.add("book-card");
 
     //for each field in a given book
     for (const field in fields) {
@@ -53,13 +69,20 @@ Library.prototype.displayAll = function (page) {
       //   Make sure we display the "read" value even if it is false
       if (currentBookField || currentBookField === false) {
         const bookDataField = document.createElement("p");
-        bookDataField.textContent = `${fields[field]}:  ${currentBookField}`;
+        bookDataField.innerHTML = `<span class="book-data-title">${fields[field]}: </span> ${currentBookField}`;
+        // bookDataField.textContent = `${fields[field]}:  ${currentBookField}`;
         // populate book card with another line of <p> wrapped data
         bookCard.appendChild(bookDataField);
       }
     }
 
-    //append book card to document body and move on to next book
+    //Add a "remove book" button to each card
+    const removeBtn = document.createElement("button");
+    removeBtn.classList.add("remove");
+    removeBtn.textContent = "Remove Book";
+    bookCard.appendChild(removeBtn);
+    //append book card to document body and move on to next book, associating card with its Book ID
+    bookCard.dataset.id = this.books[book].id;
     page.display.appendChild(bookCard);
   }
 };
@@ -128,6 +151,20 @@ function init() {
   page.closeBtn.addEventListener("click", (e) => {
     e.preventDefault();
     page.bookModal.close();
+  });
+
+  //Remove books from library when the remove button is clicked
+  page.display.addEventListener("click", (e) => {
+    //Check if target was a remove button
+    if (e.target.classList.contains("remove")) {
+      const card = e.target.closest(".book-card");
+      if (card) {
+        const id = card.dataset.id;
+        console.log(id);
+        myLibrary.removeBook(id);
+        myLibrary.displayAll(page);
+      }
+    }
   });
 }
 
