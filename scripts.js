@@ -10,6 +10,9 @@
 const page = {
   form: document.getElementById("bookInfo"),
   display: document.getElementById("showBooks"),
+  bookModal: document.getElementById("addBookDialog"),
+  addBookBtn: document.getElementById("addBookBtn"),
+  closeBtn: document.getElementById("close"),
 };
 
 //Book objects track attributes of books
@@ -114,6 +117,15 @@ function init() {
     saveFormData(myLibrary, e.target);
     e.target.reset();
     myLibrary.displayAll(page);
+  });
+
+  page.addBookBtn.addEventListener("click", (e) => {
+    page.bookModal.showModal();
+  });
+
+  page.closeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    page.bookModal.close();
   });
 }
 
