@@ -43,17 +43,15 @@ Library.prototype.displayAll = function (page) {
   page.display.textContent = "";
   for (const book in this.books) {
     let fields = Object.keys(this.books[book]);
-    console.log(fields);
-
     const bookCard = document.createElement("div");
 
     //for each field in a given book
     for (const field in fields) {
-      if (this.books[book][fields[field]]) {
+      let currentBookField = this.books[book][fields[field]];
+      //   Make sure we display the "read" value even if it is false
+      if (currentBookField || currentBookField === false) {
         const bookDataField = document.createElement("p");
-        bookDataField.textContent = `${fields[field]}:  ${
-          this.books[book][fields[field]]
-        }`;
+        bookDataField.textContent = `${fields[field]}:  ${currentBookField}`;
         // populate book card with another line of <p> wrapped data
         bookCard.appendChild(bookDataField);
       }
@@ -87,8 +85,24 @@ function init() {
 
   ///Add some books to library for testing.
 
-  myLibrary.addBook(new Book("Harry Pobber"));
-  myLibrary.addBook(new Book("Medibations"));
+  myLibrary.addBook(
+    new Book(
+      "Harry Pobber and the Thinking Rock",
+      "Miku Hatsune",
+      18,
+      "Fantasy",
+      false
+    )
+  );
+  myLibrary.addBook(
+    new Book(
+      "Medibations",
+      "Markiplier League of Legends Aurelia",
+      null,
+      null,
+      true
+    )
+  );
 
   //Display library contents
   console.log(myLibrary);
