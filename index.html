@@ -8,8 +8,8 @@
     <script src="scripts.js" defer></script>
   </head>
   <body>
-    <dialog id="addBookDialog">
-      <form id="bookInfo" action="" method="">
+    <dialog id="addBookDialog" closedby="any">
+      <form id="addBookForm" action="" method="">
         <div>
           <label for="author">Author: </label>
           <input type="text" id="author" name="author" />
@@ -34,7 +34,7 @@
           <input type="submit" value="Submit" />
         </div>
         <div>
-          <input type="submit" id="close" value="Close" />
+          <input type="submit" id="close" value="Cancel" />
         </div>
       </form>
     </dialog>

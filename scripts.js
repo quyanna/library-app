@@ -8,7 +8,7 @@
 
 //Tracks the elements on the page
 const page = {
-  form: document.getElementById("bookInfo"),
+  form: document.getElementById("addBookForm"),
   display: document.getElementById("showBooks"),
   bookModal: document.getElementById("addBookDialog"),
   addBookBtn: document.getElementById("addBookBtn"),
@@ -20,7 +20,6 @@ function Book(title, author, pageCount, genre, read = false) {
   if (!new.target) {
     throw Error("This object must be instantiated with the 'new' keyword");
   }
-
   this.id = crypto.randomUUID();
   this.title = title;
   this.author = author;
@@ -87,7 +86,6 @@ function init() {
   const myLibrary = new Library();
 
   ///Add some books to library for testing.
-
   myLibrary.addBook(
     new Book(
       "Harry Pobber and the Thinking Rock",
@@ -115,14 +113,18 @@ function init() {
   page.form.addEventListener("submit", (e) => {
     e.preventDefault();
     saveFormData(myLibrary, e.target);
-    e.target.reset();
+    page.form.reset();
+    page.bookModal.close();
     myLibrary.displayAll(page);
   });
 
+  //Show the add book popup when add book button is clicked, and refresh form
   page.addBookBtn.addEventListener("click", (e) => {
+    page.form.reset();
     page.bookModal.showModal();
   });
 
+  //   Close the modal when close button is clicked
   page.closeBtn.addEventListener("click", (e) => {
     e.preventDefault();
     page.bookModal.close();
