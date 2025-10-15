@@ -121,7 +121,11 @@ body {
   display: grid;
   grid-template-rows: 10% 1fr;
   grid-template-columns: 1fr 4fr;
-  background-color: var(--body-color);
+
+  background: linear-gradient(to bottom right, #cbc8c0, #e2dbc8),
+    url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  background-blend-mode: multiply;
+  background-size: cover;
 }
 
 .header {
