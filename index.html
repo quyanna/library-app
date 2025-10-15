@@ -4,10 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
     <script src="scripts.js" defer></script>
   </head>
   <body>
+    <div class="container">
+      <div class="header">
+        <h1>My Library</h1>
+      </div>
+      <div class="sidebar">
+        <div>
+          <button id="addBookBtn">Add Book</button>
+        </div>
+      </div>
+      <div class="body">
+        <div id="showBooks"></div>
+      </div>
+    </div>
+
     <dialog id="addBookDialog" closedby="any">
       <form id="addBookForm" action="" method="">
         <div>
@@ -38,9 +58,5 @@
         </div>
       </form>
     </dialog>
-    <div>
-      <button id="addBookBtn">Add Book</button>
-    </div>
-    <div id="showBooks"></div>
   </body>
 </html>

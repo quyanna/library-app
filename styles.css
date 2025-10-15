@@ -76,6 +76,16 @@ h6 {
 
 /* Actual styles */
 
+:root {
+  --body-color: #cbc8c0;
+  --title-color: #0c4649;
+}
+
+html,
+body {
+  height: 100dvh;
+}
+
 #showBooks {
   display: grid;
   gap: 8px;
@@ -91,15 +101,52 @@ h6 {
   justify-content: flex-start;
   background-color: whitesmoke;
   border-radius: 20px;
-  padding: 8px;
+  padding: 16px 16px 16px 30px;
+  background-color: #bbdbd9;
 }
 
 .btns-div {
   margin-top: auto;
+  padding-top: 16px;
   display: flex;
   gap: 8px;
 }
 
 .book-data-title {
   font-weight: bold;
+}
+
+.container {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 10% 1fr;
+  grid-template-columns: 1fr 4fr;
+  background-color: var(--body-color);
+}
+
+.header {
+  grid-column: 2/ -1;
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--title-color);
+}
+
+.sidebar {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url(images/lib-img2.jpg);
+  background-size: cover;
+}
+
+.body {
+  grid-column: 2 / 3;
 }
