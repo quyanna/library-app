@@ -94,9 +94,10 @@ h6 {
   padding: 8px;
 }
 
-button.remove {
+.btns-div {
   margin-top: auto;
-  align-self: flex-end;
+  display: flex;
+  gap: 8px;
 }
 
 .book-data-title {

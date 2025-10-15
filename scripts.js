@@ -1,11 +1,3 @@
-// All of your book objects are going to be stored in an array, so you’ll need a constructor for books.
-// Then, add a separate function to the script (not inside the constructor) that can
-// take some arguments, create a book from those arguments, and store the new book object
-// into an array.
-//  Also, all of your book objects should have a unique id, which can be generated using
-// crypto.randomUUID(). This ensures each book has a unique and stable identifier,
-// preventing issues when books are removed or rearranged.
-
 //Tracks the elements on the page
 const page = {
   form: document.getElementById("addBookForm"),
@@ -28,6 +20,10 @@ function Book(title, author, pageCount, genre, read = false) {
   this.read = read;
 }
 
+Book.prototype.toggleRead = function () {
+  this.read = !this.read;
+};
+
 //A library is an object that holds an array of books
 function Library(books = []) {
   if (!new.target) {
@@ -40,21 +36,23 @@ Library.prototype.addBook = function (book) {
   this.books.push(book);
 };
 
+//Removes book by ID
 Library.prototype.removeBook = function (searchID) {
-  bookList = this.books;
-  console.log(bookList);
+  const index = this.getIndexOfBook(searchID);
+  if (index != -1) {
+    this.books.splice(index, 1);
+  }
+};
 
+//Gets the index of a library's "books" of a book with the given ID, otherwise returns -1.
+Library.prototype.getIndexOfBook = function (searchID) {
+  bookList = this.books;
   const index = bookList.findIndex((book) => {
     return book.id === searchID;
   });
 
-  if (index != -1) {
-    this.books.splice(index, 1);
-  }
-
-  console.log(index);
+  return index;
 };
-
 // Displays library content state at function call to the given page object (removes whatever was there before)
 Library.prototype.displayAll = function (page) {
   page.display.textContent = "";
@@ -70,17 +68,32 @@ Library.prototype.displayAll = function (page) {
       if (currentBookField || currentBookField === false) {
         const bookDataField = document.createElement("p");
         bookDataField.innerHTML = `<span class="book-data-title">${fields[field]}: </span> ${currentBookField}`;
-        // bookDataField.textContent = `${fields[field]}:  ${currentBookField}`;
         // populate book card with another line of <p> wrapped data
         bookCard.appendChild(bookDataField);
       }
     }
 
-    //Add a "remove book" button to each card
+    //Create a div for buttons
+    const buttonsDiv = document.createElement("div");
+    buttonsDiv.classList.add("btns-div");
+
+    //Add a "mark as read/unread" button
+    const toggleReadBtn = document.createElement("button");
+    toggleReadBtn.classList.add("toggle-read");
+    toggleReadBtn.textContent = this.books[book].read
+      ? "Mark as unread"
+      : "Mark as read";
+
+    //Add a "remove book" button
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove");
     removeBtn.textContent = "Remove Book";
-    bookCard.appendChild(removeBtn);
+
+    buttonsDiv.appendChild(toggleReadBtn);
+    buttonsDiv.appendChild(removeBtn);
+
+    bookCard.appendChild(buttonsDiv);
+
     //append book card to document body and move on to next book, associating card with its Book ID
     bookCard.dataset.id = this.books[book].id;
     page.display.appendChild(bookCard);
@@ -155,14 +168,23 @@ function init() {
 
   //Remove books from library when the remove button is clicked
   page.display.addEventListener("click", (e) => {
-    //Check if target was a remove button
+    // if target was a remove button
     if (e.target.classList.contains("remove")) {
       const card = e.target.closest(".book-card");
       if (card) {
         const id = card.dataset.id;
-        console.log(id);
         myLibrary.removeBook(id);
         myLibrary.displayAll(page);
+      } // if target was a toggle read button
+    } else if (e.target.classList.contains("toggle-read")) {
+      const card = e.target.closest(".book-card");
+      if (card) {
+        const id = card.dataset.id;
+        const index = myLibrary.getIndexOfBook(id);
+        if (index !== -1) {
+          myLibrary.books[index].toggleRead();
+          myLibrary.displayAll(page);
+        }
       }
     }
   });
