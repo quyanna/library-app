@@ -79,6 +79,8 @@ h6 {
 :root {
   --body-color: #cbc8c0;
   --title-color: #0c4649;
+  --card-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
 html,
@@ -103,6 +105,7 @@ body {
   border-radius: 20px;
   padding: 16px 16px 16px 30px;
   background-color: #bbdbd9;
+  box-shadow: var(--card-shadow);
 }
 
 .btns-div {
