@@ -76,6 +76,31 @@ h6 {
 
 /* Actual styles */
 
+:root {
+  --body-color: #cbc8c0;
+  --title-color: #0c4649;
+  --card-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+
+  --title-font: "Playfair Display", serif;
+  --normal-font: "Lato", sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100dvh;
+  min-height: 100%;
+  font-family: var(--normal-font);
+  background: linear-gradient(to bottom right, #cbc8c0, #e2dbc8),
+    url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
 #showBooks {
   display: grid;
   gap: 8px;
@@ -91,15 +116,179 @@ h6 {
   justify-content: flex-start;
   background-color: whitesmoke;
   border-radius: 20px;
-  padding: 8px;
+  padding: 16px 16px 16px 30px;
+  background-color: #bbdbd9;
+  box-shadow: var(--card-shadow);
 }
 
 .btns-div {
   margin-top: auto;
+  padding-top: 16px;
   display: flex;
   gap: 8px;
 }
 
 .book-data-title {
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.container {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: 10% 1fr;
+  grid-template-columns: 1fr 4fr;
+}
+
+h1,
+h2 {
+  font-family: var(--title-font);
+  font-weight: 600;
+}
+
+.header {
+  grid-column: 2/ -1;
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--title-color);
+}
+
+.sidebar {
+  grid-column: 1 / 2;
+  grid-row: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url(images/lib-img2.jpg);
+  background-size: cover;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  height: auto;
+  width: 100%;
+  padding: 12px;
+  background-color: #0c4649c4;
+}
+
+.menu h2 {
+  color: antiquewhite;
+  font-size: 2rem;
+  font-style: italic;
+}
+
+.body {
+  grid-column: 2 / 3;
+}
+
+/* Button from Paper CSS */
+button {
+  align-self: center;
+  background-color: white;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-color: #0c4649;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--normal-font);
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: 0.75rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+button:focus {
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px;
+}
+
+dialog {
+  position: fixed;
+  z-index: 1000; /* Ensure it's above other content */
+  /* Move it 50% relative to container */
+  top: 50%;
+  left: 50%;
+  /* Move it back 50% relative to self */
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+#addBookForm {
+  display: grid;
+  gap: 9px;
+  grid-template-columns: auto 1fr;
+  grid-auto-rows: auto;
+}
+
+#addBookForm label {
   font-weight: bold;
+}
+
+#addBookForm > .form-info-field {
+  display: contents;
+}
+
+.form-btns {
+  gap: 8px;
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+/* Select only labels preceding a required input */
+label:has(+ input[required])::after {
+  padding-left: 2px;
+  content: "*";
+  color: red;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  color: rgb(104, 104, 104);
+  height: 1.5rem;
+}
+
+input#read {
+  justify-self: start;
+  width: 1rem;
+  height: auto;
+}
+
+#submit,
+#close {
+  max-width: 100px;
+  padding: 5px;
 }

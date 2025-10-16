@@ -4,43 +4,71 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
     <script src="scripts.js" defer></script>
   </head>
   <body>
+    <div class="container">
+      <div class="header">
+        <h1>My Library</h1>
+      </div>
+      <div class="sidebar">
+        <div class="menu">
+          <h2>Options</h2>
+          <button id="addBookBtn" class="button-55">Add Book</button>
+        </div>
+      </div>
+      <div class="body">
+        <div id="showBooks"></div>
+      </div>
+    </div>
+
     <dialog id="addBookDialog" closedby="any">
       <form id="addBookForm" action="" method="">
-        <div>
+        <div class="form-info-field">
           <label for="author">Author: </label>
           <input type="text" id="author" name="author" />
         </div>
-        <div>
+        <div class="form-info-field">
           <label for="title">Title: </label>
           <input type="text" id="title" name="title" required />
         </div>
-        <div>
+        <div class="form-info-field">
           <label for="page-count">Page Count: </label>
           <input type="number" id="page-count" name="pages" />
         </div>
-        <div>
+        <div class="form-info-field">
           <label for="genre">Genre: </label>
-          <input type="text" id="genre" name="genre" />
+          <select id="genre" name="genre">
+            <option value="" selected>None</option>
+            <option value="Fiction">Fiction</option>
+            <option value="Non-Fiction">Non-Fiction</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Romance">Romance</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Science Fiction">Science Fiction</option>
+            <option value="Historical Fiction">Historical Fiction</option>
+            <option value="Horror">Horror</option>
+            <option value="Biography">Biography</option>
+          </select>
         </div>
-        <div>
-          <label for="read">Read?: </label>
+        <div class="form-info-field">
+          <label for="read">Read: </label>
           <input type="checkbox" id="read" name="read" />
         </div>
-        <div>
-          <input type="submit" value="Submit" />
-        </div>
-        <div>
+        <div class="form-btns">
+          <input type="submit" id="submit" value="Submit" />
+
           <input type="submit" id="close" value="Cancel" />
         </div>
       </form>
     </dialog>
-    <div>
-      <button id="addBookBtn">Add Book</button>
-    </div>
-    <div id="showBooks"></div>
   </body>
 </html>
