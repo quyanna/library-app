@@ -15,7 +15,7 @@ function Book(title, author, pageCount, genre, read = false) {
   this.id = crypto.randomUUID();
   this.title = title;
   this.author = author;
-  this.pageCount = pageCount;
+  this["page count"] = pageCount;
   this.genre = genre;
   this.read = read;
 }
@@ -23,6 +23,8 @@ function Book(title, author, pageCount, genre, read = false) {
 Book.prototype.toggleRead = function () {
   this.read = !this.read;
 };
+
+Book.prototype.getLabel = function () {};
 
 //A library is an object that holds an array of books
 function Library(books = []) {
@@ -56,22 +58,23 @@ Library.prototype.getIndexOfBook = function (searchID) {
 // Displays library content state at function call to the given page object (removes whatever was there before)
 Library.prototype.displayAll = function (page) {
   page.display.textContent = "";
-  for (const book in this.books) {
-    let fields = Object.keys(this.books[book]);
+  const bookList = this.books;
+
+  for (const bookIndex in bookList) {
     const bookCard = document.createElement("div");
     bookCard.classList.add("book-card");
-
-    //for each field in a given book
-    for (const field in fields) {
-      let currentBookField = this.books[book][fields[field]];
-      //   Make sure we display the "read" value even if it is false
-      if (currentBookField || currentBookField === false) {
+    Object.entries(bookList[bookIndex]).forEach(([key, value]) => {
+      if (value || value === false) {
+        // Change "true or false" to "Yes or No" for readability (doesn't change actual object value)
+        if (key == "read") {
+          value = value ? "Yes" : "No";
+        }
         const bookDataField = document.createElement("p");
-        bookDataField.innerHTML = `<span class="book-data-title">${fields[field]}: </span> ${currentBookField}`;
+        bookDataField.innerHTML = `<span class="book-data-title">${key}: </span> ${value}`;
         // populate book card with another line of <p> wrapped data
         bookCard.appendChild(bookDataField);
       }
-    }
+    });
 
     //Create a div for buttons
     const buttonsDiv = document.createElement("div");
@@ -80,7 +83,7 @@ Library.prototype.displayAll = function (page) {
     //Add a "mark as read/unread" button
     const toggleReadBtn = document.createElement("button");
     toggleReadBtn.classList.add("toggle-read");
-    toggleReadBtn.textContent = this.books[book].read
+    toggleReadBtn.textContent = this.books[bookIndex].read
       ? "Mark as unread"
       : "Mark as read";
 
@@ -95,7 +98,7 @@ Library.prototype.displayAll = function (page) {
     bookCard.appendChild(buttonsDiv);
 
     //append book card to document body and move on to next book, associating card with its Book ID
-    bookCard.dataset.id = this.books[book].id;
+    bookCard.dataset.id = bookList[bookIndex].id;
     page.display.appendChild(bookCard);
   }
 };
@@ -124,7 +127,7 @@ function init() {
   ///Add some books to library for testing.
   myLibrary.addBook(
     new Book(
-      "Harry Pobber and the Thinking Rock",
+      "Harry Potter and the Thinking Rock",
       "Miku Hatsune",
       18,
       "Fantasy",

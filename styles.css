@@ -81,11 +81,15 @@ h6 {
   --title-color: #0c4649;
   --card-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+
+  --title-font: "Playfair Display", serif;
+  --normal-font: "Lato", sans-serif;
 }
 
 html,
 body {
   height: 100dvh;
+  font-family: var(--normal-font);
 }
 
 #showBooks {
@@ -116,7 +120,8 @@ body {
 }
 
 .book-data-title {
-  font-weight: bold;
+  font-weight: 900;
+  text-transform: capitalize;
 }
 
 .container {
@@ -131,14 +136,18 @@ body {
   background-size: cover;
 }
 
+h1,
+h2 {
+  font-family: var(--title-font);
+  font-weight: 600;
+}
+
 .header {
   grid-column: 2/ -1;
   grid-row: 1 / 2;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Playfair Display", serif;
-  font-weight: 600;
   font-style: italic;
   font-size: 1.5rem;
   color: var(--title-color);
@@ -169,8 +178,6 @@ body {
 }
 
 .menu h2 {
-  font-family: "Playfair Display", serif;
-  font-weight: 600;
   color: antiquewhite;
   font-size: 2rem;
   font-style: italic;
@@ -197,7 +204,7 @@ button {
   color: #41403e;
   cursor: pointer;
   display: inline-block;
-  font-family: Neucha, sans-serif;
+  font-family: var(--normal-font);
   font-size: 1rem;
   line-height: 23px;
   outline: none;
