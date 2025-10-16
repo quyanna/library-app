@@ -91,12 +91,14 @@ html {
 }
 
 body {
+  height: 100dvh;
   min-height: 100%;
   font-family: var(--normal-font);
   background: linear-gradient(to bottom right, #cbc8c0, #e2dbc8),
     url("https://www.transparenttextures.com/patterns/paper-fibers.png");
   background-blend-mode: multiply;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 #showBooks {
