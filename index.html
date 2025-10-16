@@ -31,30 +31,29 @@
 
     <dialog id="addBookDialog" closedby="any">
       <form id="addBookForm" action="" method="">
-        <div>
+        <div class="form-info-field">
           <label for="author">Author: </label>
           <input type="text" id="author" name="author" />
         </div>
-        <div>
+        <div class="form-info-field">
           <label for="title">Title: </label>
           <input type="text" id="title" name="title" required />
         </div>
-        <div>
+        <div class="form-info-field">
           <label for="page-count">Page Count: </label>
           <input type="number" id="page-count" name="pages" />
         </div>
-        <div>
+        <div class="form-info-field">
           <label for="genre">Genre: </label>
           <input type="text" id="genre" name="genre" />
         </div>
-        <div>
-          <label for="read">Read?: </label>
+        <div class="form-info-field">
+          <label for="read">Read: </label>
           <input type="checkbox" id="read" name="read" />
         </div>
-        <div>
-          <input type="submit" value="Submit" />
-        </div>
-        <div>
+        <div class="form-btns">
+          <input type="submit" id="submit" value="Submit" />
+
           <input type="submit" id="close" value="Cancel" />
         </div>
       </form>
