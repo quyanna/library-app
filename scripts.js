@@ -120,7 +120,6 @@ Library.prototype.displayAll = function (page) {
 //Converts data entered in form to a Book, then saves it in the given Library.
 function saveFormData(library, form) {
   const newBookData = new FormData(form);
-  console.log(newBookData.get("read"));
   let title = newBookData.get("title");
   let author = newBookData.get("author");
   let pageCount = newBookData.get("pages");
@@ -130,7 +129,6 @@ function saveFormData(library, form) {
 
   const userEnteredBook = new Book(title, author, pageCount, genre, read);
   library.addBook(userEnteredBook);
-  console.log(library); // for testing
 }
 
 //Initializes objects, event listeners, etc.
@@ -159,7 +157,6 @@ function init() {
   );
 
   //Display library contents
-  console.log(myLibrary);
   myLibrary.displayAll(page);
 
   //Set up event listeners for form.
@@ -185,7 +182,6 @@ function init() {
 
   //Event listener for the sort alphabetically button
   page.sortByTitleBtn.addEventListener("click", (e) => {
-    console.log("button");
     myLibrary.sortByTitle();
     myLibrary.displayAll(page);
   });
