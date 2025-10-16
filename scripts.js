@@ -5,6 +5,7 @@ const page = {
   bookModal: document.getElementById("addBookDialog"),
   addBookBtn: document.getElementById("addBookBtn"),
   closeBtn: document.getElementById("close"),
+  sortByTitleBtn: document.getElementById("sortByTitleBtn"),
 };
 
 //Book objects track attributes of books
@@ -55,6 +56,10 @@ Library.prototype.getIndexOfBook = function (searchID) {
 
   return index;
 };
+
+//Sorts the library by title
+Library.prototype.sortByTitle = function () {};
+
 // Displays library content state at function call to the given page object (removes whatever was there before)
 Library.prototype.displayAll = function (page) {
   page.display.textContent = "";
@@ -167,6 +172,13 @@ function init() {
   page.closeBtn.addEventListener("click", (e) => {
     e.preventDefault();
     page.bookModal.close();
+  });
+
+  //Event listener for the sort alphabetically button
+  page.sortByTitleBtn.addEventListener("click", (e) => {
+    console.log("button");
+    myLibrary.sortByTitle();
+    myLibrary.displayAll(page);
   });
 
   //Remove books from library when the remove button is clicked
