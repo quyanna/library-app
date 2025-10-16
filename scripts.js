@@ -49,7 +49,7 @@ Library.prototype.removeBook = function (searchID) {
 
 //Gets the index of a library's "books" of a book with the given ID, otherwise returns -1.
 Library.prototype.getIndexOfBook = function (searchID) {
-  bookList = this.books;
+  let bookList = this.books;
   const index = bookList.findIndex((book) => {
     return book.id === searchID;
   });
@@ -58,7 +58,16 @@ Library.prototype.getIndexOfBook = function (searchID) {
 };
 
 //Sorts the library by title
-Library.prototype.sortByTitle = function () {};
+Library.prototype.sortByTitle = function () {
+  let bookList = this.books; // get a reference to the array of books
+
+  bookList.sort((bookA, bookB) => {
+    const title1 = bookA.title.toUpperCase();
+    const title2 = bookB.title.toUpperCase();
+
+    return title1.localeCompare(title2, "en");
+  });
+};
 
 // Displays library content state at function call to the given page object (removes whatever was there before)
 Library.prototype.displayAll = function (page) {
