@@ -1,10 +1,4 @@
 # library-app
 
-Simple JS library app to practice object-oriented design
-
-### Personal Notes
-
-TODO:
-
-- Turn genre into a drop down list maybe (with an 'other' category as well)
-- A sorting function? (At least alphabetically by title?)
+Simple JS library app to practice object-oriented design and dynamic front-end layouts with vanilla HTML/CSS.
+Storage doesn't persist between uses. You can add books, remove books, and sort them alphabetically.
