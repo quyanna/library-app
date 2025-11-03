@@ -48,15 +48,10 @@ const page = {
   sortByTitleBtn: document.getElementById("sortByTitleBtn"),
 };
 
-//Represents a library of books, with methods to add books, view books, search books, and sort books
+//Class representing a Library of Books
 class Library {
-  #books;
-  constructor() {
-    this.#books = [];
-  }
-
-  get books() {
-    return this.#books;
+  constructor(books = []) {
+    this.books = books;
   }
 
   addBook(book) {
@@ -271,7 +266,6 @@ class LibraryController {
         true
       )
     );
-    console.log(this.library);
 
     //Initial render
     this.view.displayAll(this.library.books);
