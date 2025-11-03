@@ -142,6 +142,7 @@ class LibraryViewer {
       //Add a "mark as read/unread" button
       const toggleReadBtn = document.createElement("button");
       toggleReadBtn.classList.add("toggle-read");
+      toggleReadBtn.dataset.action = "toggle";
       toggleReadBtn.textContent = library.books[bookIndex].read
         ? "Mark as unread"
         : "Mark as read";
@@ -149,6 +150,7 @@ class LibraryViewer {
       //Add a "remove book" button
       const removeBtn = document.createElement("button");
       removeBtn.classList.add("remove");
+      removeBtn.dataset.action = "remove";
       removeBtn.textContent = "Remove Book";
 
       buttonsDiv.appendChild(toggleReadBtn);
@@ -168,6 +170,45 @@ class LibraryViewer {
       handler(this.library, e.target);
       this.form.reset();
       this.bookModal.close();
+    });
+  }
+
+  onCardClick(handler) {
+    this.display.addEventListener("click", (e) => {
+      const btnClicked = e.target.closest("[data-action]");
+      if (!btnClicked) return;
+
+      const action = btnClicked.dataset.action;
+      const id = e.target.closest("[data-id]")?.dataset.id;
+
+      switch (action) {
+        case "toggle":
+          handler({ type: "toggle", id });
+          break;
+        case "remove":
+          handler({ type: "remove", id });
+          break;
+      }
+
+      // // if target was a remove button
+      // if (e.target.classList.contains("remove")) {
+      //   const card = e.target.closest(".book-card");
+      //   if (card) {
+      //     const id = card.dataset.id;
+      //     myLibrary.removeBook(id);
+      //     myLibrary.displayAll(page);
+      //   } // if target was a toggle read button
+      // } else if (e.target.classList.contains("toggle-read")) {
+      //   const card = e.target.closest(".book-card");
+      //   if (card) {
+      //     const id = card.dataset.id;
+      //     const thisBook = myLibrary.findBookByID(id);
+      //     if (thisBook) {
+      //       thisBook.toggleRead();
+      //       myLibrary.displayAll(page);
+      //     }
+      //   }
+      // }
     });
   }
 
@@ -230,6 +271,16 @@ class LibraryController {
   constructor(library, view) {
     this.library = library;
     this.view = view;
+
+    view.onCardClick(({ type, id }) => {
+      if (type == "toggle") {
+        const book = this.library.findBookByID(id);
+        if (book) {
+          book.toggleRead();
+        }
+        this.view.displayAll(library);
+      }
+    });
 
     //Add some initial books just for demo purposes
     this.library.addBook(
