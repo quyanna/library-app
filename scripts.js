@@ -25,7 +25,7 @@ class Book {
   }
 
   get id() {
-    return `${this.#id}`;
+    return this.#id;
   }
 
   toggleRead() {
@@ -60,47 +60,104 @@ const page = {
 //   this.read = !this.read;
 // };
 
-//A library is an object that holds an array of books
-function Library(books = []) {
-  if (!new.target) {
-    throw Error("This object must be instantiated with the 'new' keyword");
+//TODO: MAYBE A GETTER FOR BOOKS TO AVOID BOOKS BEING ALTERED INTERNALLY
+//TODO: A getter for a list/string representation of all books, as well as each book having a string getter for its fields
+
+class Library {
+  constructor(books = []) {
+    this.books = books;
   }
-  this.books = books;
+
+  addBook(book) {
+    if (book instanceof Book) this.books.push(book);
+  }
+
+  //Removes book by ID, unless book is not found, then does nothing
+  removeBook(searchID) {
+    const index = this.#getIndexOfBook(searchID);
+    if (index != -1) {
+      this.books.splice(index, 1);
+    }
+  }
+
+  //Gets the index of a library's "books" of a book with the given ID, otherwise returns -1.
+  #getIndexOfBook(searchID) {
+    let bookList = this.books;
+    const index = bookList.findIndex((book) => {
+      return book.id === searchID;
+    });
+
+    return index;
+  }
+
+  // getBookAtIndex(index) {
+  //   if (!this.books[index]) return undefined;
+
+  //   return this.books[index];
+  // }
+
+  //Return a reference to the book with the given ID in this library, otherwise return undefined
+  findBookByID(searchId) {
+    const index = this.#getIndexOfBook(searchId);
+    if (index === -1) return undefined;
+
+    return this.books[index];
+  }
+
+  //Sorts the library by title (alphabetically)
+  sortByTitle() {
+    let bookList = this.books; // get a reference to the array of books
+
+    bookList.sort((bookA, bookB) => {
+      const title1 = bookA.title.toUpperCase();
+      const title2 = bookB.title.toUpperCase();
+
+      return title1.localeCompare(title2, "en");
+    });
+  }
 }
 
-Library.prototype.addBook = function (book) {
-  this.books.push(book);
-};
+// //A library is an object that holds an array of books
+// function Library(books = []) {
+//   if (!new.target) {
+//     throw Error("This object must be instantiated with the 'new' keyword");
+//   }
+//   this.books = books;
+// }
 
-//Removes book by ID
-Library.prototype.removeBook = function (searchID) {
-  const index = this.getIndexOfBook(searchID);
-  if (index != -1) {
-    this.books.splice(index, 1);
-  }
-};
+// Library.prototype.addBook = function (book) {
+//   this.books.push(book);
+// };
 
-//Gets the index of a library's "books" of a book with the given ID, otherwise returns -1.
-Library.prototype.getIndexOfBook = function (searchID) {
-  let bookList = this.books;
-  const index = bookList.findIndex((book) => {
-    return book.id === searchID;
-  });
+// //Removes book by ID, unless book is not found, then does nothing
+// Library.prototype.removeBook = function (searchID) {
+//   const index = this.getIndexOfBook(searchID);
+//   if (index != -1) {
+//     this.books.splice(index, 1);
+//   }
+// };
 
-  return index;
-};
+// //Gets the index of a library's "books" of a book with the given ID, otherwise returns -1.
+// Library.prototype.getIndexOfBook = function (searchID) {
+//   let bookList = this.books;
+//   const index = bookList.findIndex((book) => {
+//     return book.id === searchID;
+//   });
 
-//Sorts the library by title
-Library.prototype.sortByTitle = function () {
-  let bookList = this.books; // get a reference to the array of books
+//   return index;
+// };
 
-  bookList.sort((bookA, bookB) => {
-    const title1 = bookA.title.toUpperCase();
-    const title2 = bookB.title.toUpperCase();
+// //Sorts the library by title
+// Library.prototype.sortByTitle = function () {
+//   let bookList = this.books; // get a reference to the array of books
 
-    return title1.localeCompare(title2, "en");
-  });
-};
+//   bookList.sort((bookA, bookB) => {
+//     const title1 = bookA.title.toUpperCase();
+//     const title2 = bookB.title.toUpperCase();
+
+//     return title1.localeCompare(title2, "en");
+//   });
+// };
 
 // Displays library content state at function call to the given page object (removes whatever was there before)
 Library.prototype.displayAll = function (page) {
@@ -233,9 +290,9 @@ function init() {
       const card = e.target.closest(".book-card");
       if (card) {
         const id = card.dataset.id;
-        const index = myLibrary.getIndexOfBook(id);
-        if (index !== -1) {
-          myLibrary.books[index].toggleRead();
+        const thisBook = myLibrary.findBookByID(id);
+        if (thisBook) {
+          thisBook.toggleRead();
           myLibrary.displayAll(page);
         }
       }
