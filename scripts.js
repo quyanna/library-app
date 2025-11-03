@@ -176,15 +176,18 @@ class LibraryViewer {
     }
   }
 
+  // Called when form to add a new book is submitted
   onSubmitForm(handler) {
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
-      handler(this.library, e.target);
+      const bookData = new FormData(e.target);
+      handler(bookData);
       this.form.reset();
       this.bookModal.close();
     });
   }
 
+  // Called when one of the buttons on the book "cards" is clicked
   onCardClick(handler) {
     this.display.addEventListener("click", (e) => {
       const btnClicked = e.target.closest("[data-action]");
@@ -203,15 +206,6 @@ class LibraryViewer {
       }
     });
   }
-
-  //   //Set up event listeners for form.
-  // this.form.addEventListener("submit", (e) => {
-  //   e.preventDefault();
-  //   saveFormData(myLibrary, e.target);
-  //   this.form.reset();
-  //   this.bookModal.close();
-  //   myLibrary.displayAll(page);
-  // });
 
   // //Event listener for the sort alphabetically button
   // page.sortByTitleBtn.addEventListener("click", (e) => {
@@ -239,6 +233,18 @@ class LibraryController {
         this.library.removeBook(id);
         this.view.displayAll(library);
       }
+    });
+
+    view.onSubmitForm((formData) => {
+      let title = formData.get("title");
+      let author = formData.get("author");
+      let pageCount = formData.get("pages");
+      let genre = formData.get("genre");
+      let read = formData.has("read") ? true : false;
+
+      const newBook = new Book(title, author, pageCount, genre, read);
+      this.library.addBook(newBook);
+      view.displayAll(this.library);
     });
 
     //Add some initial books just for demo purposes
@@ -271,13 +277,13 @@ init = new LibraryController(new Library(), new LibraryViewer());
 
 // //Converts data entered in form to a Book, then saves it in the given Library.
 // function saveFormData(library, form) {
-//   const newBookData = new FormData(form);
-//   let title = newBookData.get("title");
-//   let author = newBookData.get("author");
-//   let pageCount = newBookData.get("pages");
-//   let genre = newBookData.get("genre");
+//   const formData = new FormData(form);
+//   let title = formData.get("title");
+//   let author = formData.get("author");
+//   let pageCount = formData.get("pages");
+//   let genre = formData.get("genre");
 
-//   let read = newBookData.has("read") ? true : false;
+//   let read = formData.has("read") ? true : false;
 
 //   const userEnteredBook = new Book(title, author, pageCount, genre, read);
 //   library.addBook(userEnteredBook);
