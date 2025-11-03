@@ -109,6 +109,18 @@ class LibraryViewer {
     this.addBookBtn = document.getElementById("addBookBtn");
     this.closeBtn = document.getElementById("close");
     this.sortByTitleBtn = document.getElementById("sortByTitleBtn");
+
+    //Show modal and reset form when add book button is pressed
+    this.addBookBtn.addEventListener("click", (e) => {
+      this.form.reset();
+      this.bookModal.showModal();
+    });
+
+    //   Close the modal when close button is clicked
+    this.closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.bookModal.close();
+    });
   }
 
   //Displays library output to the DOM (Assumes existence of a DOM Element with ID "showBooks"), preferably a div.
@@ -164,7 +176,7 @@ class LibraryViewer {
     }
   }
 
-  onSubmit(handler) {
+  onSubmitForm(handler) {
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
       handler(this.library, e.target);
@@ -201,25 +213,11 @@ class LibraryViewer {
   //   myLibrary.displayAll(page);
   // });
 
-  // //Show the add book popup when add book button is clicked, and refresh form
-  // page.addBookBtn.addEventListener("click", (e) => {
-  //   page.form.reset();
-  //   page.bookModal.showModal();
-  // });
-
-  // //   Close the modal when close button is clicked
-  // page.closeBtn.addEventListener("click", (e) => {
-  //   e.preventDefault();
-  //   page.bookModal.close();
-  // });
-
   // //Event listener for the sort alphabetically button
   // page.sortByTitleBtn.addEventListener("click", (e) => {
   //   myLibrary.sortByTitle();
   //   myLibrary.displayAll(page);
   // });
-
-  onAddBook(handler) {}
 }
 
 // CONTROLLER
@@ -270,53 +268,6 @@ class LibraryController {
 }
 
 init = new LibraryController(new Library(), new LibraryViewer());
-// // Displays library content state at function call to the given page object (removes whatever was there before)
-// Library.prototype.displayAll = function (page) {
-//   page.display.textContent = "";
-//   const bookList = this.books;
-
-//   for (const bookIndex in bookList) {
-//     const bookCard = document.createElement("div");
-//     bookCard.classList.add("book-card");
-//     Object.entries(bookList[bookIndex]).forEach(([key, value]) => {
-//       if (value || value === false) {
-//         // Change "true or false" to "Yes or No" for readability (doesn't change actual object value)
-//         if (key == "read") {
-//           value = value ? "Yes" : "No";
-//         }
-//         const bookDataField = document.createElement("p");
-//         bookDataField.innerHTML = `<span class="book-data-title">${key}: </span> ${value}`;
-//         // populate book card with another line of <p> wrapped data
-//         bookCard.appendChild(bookDataField);
-//       }
-//     });
-
-//     //Create a div for buttons
-//     const buttonsDiv = document.createElement("div");
-//     buttonsDiv.classList.add("btns-div");
-
-//     //Add a "mark as read/unread" button
-//     const toggleReadBtn = document.createElement("button");
-//     toggleReadBtn.classList.add("toggle-read");
-//     toggleReadBtn.textContent = this.books[bookIndex].read
-//       ? "Mark as unread"
-//       : "Mark as read";
-
-//     //Add a "remove book" button
-//     const removeBtn = document.createElement("button");
-//     removeBtn.classList.add("remove");
-//     removeBtn.textContent = "Remove Book";
-
-//     buttonsDiv.appendChild(toggleReadBtn);
-//     buttonsDiv.appendChild(removeBtn);
-
-//     bookCard.appendChild(buttonsDiv);
-
-//     //append book card to document body and move on to next book, associating card with its Book ID
-//     bookCard.dataset.id = bookList[bookIndex].id;
-//     page.display.appendChild(bookCard);
-//   }
-// };
 
 // //Converts data entered in form to a Book, then saves it in the given Library.
 // function saveFormData(library, form) {
@@ -356,14 +307,6 @@ init = new LibraryController(new Library(), new LibraryViewer());
 //       true
 //     )
 //   );
-
-//   myBook = new Book("Hello");
-//   console.log(myBook.toString());
-
-//   console.log(myLibrary.toString());
-
-//   //Display library contents
-//   myLibrary.displayAll(page);
 
 //   //Set up event listeners for form.
 //   page.form.addEventListener("submit", (e) => {
