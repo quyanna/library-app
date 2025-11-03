@@ -1,3 +1,38 @@
+/* 
+REFACTOR: 
+- This refactor aims to change all of the function-based "classes" into actual JS classes. I am also
+  trying to take the opportunity to learn about the MVP/MVC pattern (https://developer.mozilla.org/en-US/docs/Glossary/MVC) 
+*/
+
+// MODEL: Books, Library
+
+//NOTE: Refactoring book to have priv id and also default to empty fields
+class Book {
+  #id;
+  constructor(
+    title = "",
+    author = "",
+    pageCount = "",
+    genre = "",
+    read = false
+  ) {
+    this.#id = crypto.randomUUID();
+    this.title = title;
+    this.author = author;
+    this["page count"] = pageCount;
+    this.genre = genre;
+    this.read = read;
+  }
+
+  get id() {
+    return `${this.#id}`;
+  }
+
+  toggleRead() {
+    this.read = !this.read;
+  }
+}
+
 //Tracks the elements on the page
 const page = {
   form: document.getElementById("addBookForm"),
@@ -8,24 +43,22 @@ const page = {
   sortByTitleBtn: document.getElementById("sortByTitleBtn"),
 };
 
-//Book objects track attributes of books
-function Book(title, author, pageCount, genre, read = false) {
-  if (!new.target) {
-    throw Error("This object must be instantiated with the 'new' keyword");
-  }
-  this.id = crypto.randomUUID();
-  this.title = title;
-  this.author = author;
-  this["page count"] = pageCount;
-  this.genre = genre;
-  this.read = read;
-}
+// //Book objects track attributes of books
+// function Book(title, author, pageCount, genre, read = false) {
+//   if (!new.target) {
+//     throw Error("This object must be instantiated with the 'new' keyword");
+//   }
+//   this.id = crypto.randomUUID();
+//   this.title = title;
+//   this.author = author;
+//   this["page count"] = pageCount;
+//   this.genre = genre;
+//   this.read = read;
+// }
 
-Book.prototype.toggleRead = function () {
-  this.read = !this.read;
-};
-
-Book.prototype.getLabel = function () {};
+// Book.prototype.toggleRead = function () {
+//   this.read = !this.read;
+// };
 
 //A library is an object that holds an array of books
 function Library(books = []) {
