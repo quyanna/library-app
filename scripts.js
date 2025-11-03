@@ -189,26 +189,6 @@ class LibraryViewer {
           handler({ type: "remove", id });
           break;
       }
-
-      // // if target was a remove button
-      // if (e.target.classList.contains("remove")) {
-      //   const card = e.target.closest(".book-card");
-      //   if (card) {
-      //     const id = card.dataset.id;
-      //     myLibrary.removeBook(id);
-      //     myLibrary.displayAll(page);
-      //   } // if target was a toggle read button
-      // } else if (e.target.classList.contains("toggle-read")) {
-      //   const card = e.target.closest(".book-card");
-      //   if (card) {
-      //     const id = card.dataset.id;
-      //     const thisBook = myLibrary.findBookByID(id);
-      //     if (thisBook) {
-      //       thisBook.toggleRead();
-      //       myLibrary.displayAll(page);
-      //     }
-      //   }
-      // }
     });
   }
 
@@ -239,29 +219,6 @@ class LibraryViewer {
   //   myLibrary.displayAll(page);
   // });
 
-  // //Remove books from library when the remove button is clicked
-  // page.display.addEventListener("click", (e) => {
-  //   // if target was a remove button
-  //   if (e.target.classList.contains("remove")) {
-  //     const card = e.target.closest(".book-card");
-  //     if (card) {
-  //       const id = card.dataset.id;
-  //       myLibrary.removeBook(id);
-  //       myLibrary.displayAll(page);
-  //     } // if target was a toggle read button
-  //   } else if (e.target.classList.contains("toggle-read")) {
-  //     const card = e.target.closest(".book-card");
-  //     if (card) {
-  //       const id = card.dataset.id;
-  //       const thisBook = myLibrary.findBookByID(id);
-  //       if (thisBook) {
-  //         thisBook.toggleRead();
-  //         myLibrary.displayAll(page);
-  //       }
-  //     }
-  //   }
-  // });
-
   onAddBook(handler) {}
 }
 
@@ -278,6 +235,10 @@ class LibraryController {
         if (book) {
           book.toggleRead();
         }
+        this.view.displayAll(library);
+      }
+      if (type == "remove") {
+        this.library.removeBook(id);
         this.view.displayAll(library);
       }
     });
