@@ -48,11 +48,15 @@ const page = {
   sortByTitleBtn: document.getElementById("sortByTitleBtn"),
 };
 
-//TODO: MAYBE A GETTER FOR BOOKS TO AVOID BOOKS BEING ALTERED INTERNALLY
-
+//Represents a library of books, with methods to add books, view books, search books, and sort books
 class Library {
-  constructor(books = []) {
-    this.books = books;
+  #books;
+  constructor() {
+    this.#books = [];
+  }
+
+  get books() {
+    return this.#books;
   }
 
   addBook(book) {
@@ -124,9 +128,8 @@ class LibraryViewer {
 
   //Displays library output to the DOM (Assumes existence of a DOM Element with ID "showBooks"), preferably a div.
   // Each book is displayed as a "card" with a "Read/Unread" button and a "Remove" button.
-  displayAll(library) {
+  displayAll(bookList) {
     this.display.textContent = "";
-    const bookList = library.books;
 
     for (const bookIndex in bookList) {
       const bookCard = document.createElement("div");
@@ -154,7 +157,7 @@ class LibraryViewer {
       const toggleReadBtn = document.createElement("button");
       toggleReadBtn.classList.add("toggle-read");
       toggleReadBtn.dataset.action = "toggle";
-      toggleReadBtn.textContent = library.books[bookIndex].read
+      toggleReadBtn.textContent = bookList[bookIndex].read
         ? "Mark as unread"
         : "Mark as read";
 
@@ -224,11 +227,11 @@ class LibraryController {
         if (book) {
           book.toggleRead();
         }
-        this.view.displayAll(library);
+        this.view.displayAll(library.books);
       }
       if (type == "remove") {
         this.library.removeBook(id);
-        this.view.displayAll(library);
+        this.view.displayAll(library.books);
       }
     });
 
@@ -241,12 +244,12 @@ class LibraryController {
 
       const newBook = new Book(title, author, pageCount, genre, read);
       this.library.addBook(newBook);
-      view.displayAll(this.library);
+      view.displayAll(this.library.books);
     });
 
     view.onSortByTitle(() => {
       this.library.sortByTitle();
-      this.view.displayAll(this.library);
+      this.view.displayAll(this.library.books);
     });
 
     //Add some initial books just for demo purposes
@@ -271,7 +274,7 @@ class LibraryController {
     console.log(this.library);
 
     //Initial render
-    this.view.displayAll(this.library);
+    this.view.displayAll(this.library.books);
   }
 }
 
