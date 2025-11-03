@@ -2,11 +2,16 @@
 REFACTOR: 
 - This refactor aims to change all of the function-based "classes" into actual JS classes. I am also
   trying to take the opportunity to learn about the MVP/MVC pattern (https://developer.mozilla.org/en-US/docs/Glossary/MVC) 
+
+This refactor organizes the functionality into classes as follows: 
+  Model: Books, Library
+  View: LibraryViewer
+  Controller: LibraryController
 */
 
 // MODEL: Books, Library
 
-//NOTE: Refactoring book to have priv id and also default to empty fields
+//NOTE: Refactored book to have priv id and also default to empty fields
 class Book {
   #id;
   constructor(
@@ -71,12 +76,6 @@ class Library {
 
     return index;
   }
-
-  // getBookAtIndex(index) {
-  //   if (!this.books[index]) return undefined;
-
-  //   return this.books[index];
-  // }
 
   //Return a reference to the book with the given ID in this library, otherwise return undefined
   findBookByID(searchId) {
