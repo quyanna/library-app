@@ -207,11 +207,9 @@ class LibraryViewer {
     });
   }
 
-  // //Event listener for the sort alphabetically button
-  // page.sortByTitleBtn.addEventListener("click", (e) => {
-  //   myLibrary.sortByTitle();
-  //   myLibrary.displayAll(page);
-  // });
+  onSortByTitle(handler) {
+    this.sortByTitleBtn.addEventListener("click", handler);
+  }
 }
 
 // CONTROLLER
@@ -247,6 +245,11 @@ class LibraryController {
       view.displayAll(this.library);
     });
 
+    view.onSortByTitle(() => {
+      this.library.sortByTitle();
+      this.view.displayAll(this.library);
+    });
+
     //Add some initial books just for demo purposes
     this.library.addBook(
       new Book(
@@ -274,95 +277,3 @@ class LibraryController {
 }
 
 init = new LibraryController(new Library(), new LibraryViewer());
-
-// //Converts data entered in form to a Book, then saves it in the given Library.
-// function saveFormData(library, form) {
-//   const formData = new FormData(form);
-//   let title = formData.get("title");
-//   let author = formData.get("author");
-//   let pageCount = formData.get("pages");
-//   let genre = formData.get("genre");
-
-//   let read = formData.has("read") ? true : false;
-
-//   const userEnteredBook = new Book(title, author, pageCount, genre, read);
-//   library.addBook(userEnteredBook);
-// }
-
-// //Initializes objects, event listeners, etc.
-// function init() {
-//   //tracks the state of the library
-//   const myLibrary = new Library();
-
-//   ///Add some books to library for testing.
-//   myLibrary.addBook(
-//     new Book(
-//       "Harry Potter and the Thinking Rock",
-//       "Miku Hatsune",
-//       18,
-//       "Fantasy",
-//       false
-//     )
-//   );
-//   myLibrary.addBook(
-//     new Book(
-//       "Medibations",
-//       "Markiplier League of Legends Aurelia",
-//       null,
-//       null,
-//       true
-//     )
-//   );
-
-//   //Set up event listeners for form.
-//   page.form.addEventListener("submit", (e) => {
-//     e.preventDefault();
-//     saveFormData(myLibrary, e.target);
-//     page.form.reset();
-//     page.bookModal.close();
-//     myLibrary.displayAll(page);
-//   });
-
-//   //Show the add book popup when add book button is clicked, and refresh form
-//   page.addBookBtn.addEventListener("click", (e) => {
-//     page.form.reset();
-//     page.bookModal.showModal();
-//   });
-
-//   //   Close the modal when close button is clicked
-//   page.closeBtn.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     page.bookModal.close();
-//   });
-
-//   //Event listener for the sort alphabetically button
-//   page.sortByTitleBtn.addEventListener("click", (e) => {
-//     myLibrary.sortByTitle();
-//     myLibrary.displayAll(page);
-//   });
-
-//   //Remove books from library when the remove button is clicked
-//   page.display.addEventListener("click", (e) => {
-//     // if target was a remove button
-//     if (e.target.classList.contains("remove")) {
-//       const card = e.target.closest(".book-card");
-//       if (card) {
-//         const id = card.dataset.id;
-//         myLibrary.removeBook(id);
-//         myLibrary.displayAll(page);
-//       } // if target was a toggle read button
-//     } else if (e.target.classList.contains("toggle-read")) {
-//       const card = e.target.closest(".book-card");
-//       if (card) {
-//         const id = card.dataset.id;
-//         const thisBook = myLibrary.findBookByID(id);
-//         if (thisBook) {
-//           thisBook.toggleRead();
-//           myLibrary.displayAll(page);
-//         }
-//       }
-//     }
-//   });
-// }
-
-// init();
